@@ -83,27 +83,7 @@ wrapitup/
 
 ### Mini App Manifest
 
-Create a `/.well-known/farcaster.json` file:
-
-```json
-{
-  "accountAssociation": {
-    "header": "YOUR_BASE64_HEADER",
-    "payload": "YOUR_BASE64_PAYLOAD",
-    "signature": "YOUR_BASE64_SIGNATURE"
-  },
-  "miniapp": {
-    "version": "1",
-    "name": "WrapItUp",
-    "iconUrl": "https://wrap-it-up-lac.vercel.app/splash.png",
-    "homeUrl": "https://wrap-it-up-lac.vercel.app/",
-    "imageUrl": "https://wrap-it-up-lac.vercel.app/image.png",
-    "buttonTitle": "🎈 Start",
-    "splashImageUrl": "https://wrap-it-up-lac.vercel.app/splash.png",
-    "splashBackgroundColor": "#6a0dad"
-  }
-}
-```
+Create a .well-known/farcaster.json file
 
 ### Smart Contract
 
