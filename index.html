@@ -3,22 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WrapItUp | Safe NFT Mint</title>
+<title>Condom Mint | NFT</title>
+
 <!-- Farcaster Mini App Meta Tag -->
 <meta name="fc:miniapp" content='{
   "version":"1",
   "imageUrl":"https://your-domain.vercel.app/preview.png",
   "button":{
-    "title":"Mint Safe NFT",
+    "title":"Mint NFT",
     "action":{
       "type":"launch_frame",
-      "name":"WrapItUp",
+      "name":"Condom Mint",
       "url":"https://your-domain.vercel.app/",
       "splashImageUrl":"https://your-domain.vercel.app/icon.png",
       "splashBackgroundColor":"#ec4899"
     }
   }
 }'>
+
 <style>
 html, body {
   margin: 0;
@@ -29,365 +31,199 @@ html, body {
 }
 body {
   background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
-  color: #ffffff;
+  color: #fff;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 16px;
   box-sizing: border-box;
 }
 .container {
-  max-width: 400px;
+  max-width: 320px;
   width: 100%;
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 24px;
-  padding: 32px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
   text-align: center;
 }
 h1 {
-  font-size: 2.5rem;
-  margin: 0 0 10px 0;
+  font-size: 1.8rem;
+  margin-bottom: 6px;
   font-weight: 800;
-  background: linear-gradient(135deg, #fff 0%, #fce7f3 100%);
+  background: linear-gradient(135deg, #fff 0%, #f9a8d4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 .subtitle {
-  font-size: 1rem;
+  font-size: 0.9rem;
   opacity: 0.9;
-  margin-bottom: 32px;
-  color: #fce7f3;
+  margin-bottom: 20px;
+  color: #fbcfe8;
 }
 .nft-preview {
-  width: 200px;
-  height: 200px;
-  margin: 0 auto 24px;
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 16px;
   background: rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 80px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
+  font-size: 64px;
+  border: 2px solid rgba(255,255,255,0.3);
 }
 .wallet-info {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 24px;
   display: none;
+  background: rgba(0,0,0,0.25);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 16px;
 }
-.wallet-info.show {
-  display: block;
-}
+.wallet-info.show { display: block; }
 .wallet-address {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: #e879f9;
+  color: #c4b5fd;
   word-break: break-all;
-}
-.user-info {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 20px;
-  display: none;
-}
-.user-info.show {
-  display: block;
-}
-.user-name {
-  font-weight: 700;
-  font-size: 1rem;
-  margin-bottom: 4px;
-}
-.user-fid {
-  font-size: 0.85rem;
-  opacity: 0.8;
 }
 .btn {
   width: 100%;
-  padding: 16px;
-  background: linear-gradient(135deg, #ffffff 0%, #fce7f3 100%);
-  color: #ec4899;
+  padding: 12px;
+  background: linear-gradient(135deg,#fff 0%,#f9a8d4 100%);
+  color: #db2777;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.95rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin: 10px 0;
-  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+  margin: 8px 0;
+  transition: all 0.3s;
 }
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
-}
-.btn:active {
-  transform: translateY(0);
-}
-.btn:disabled {
-  background: rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.5);
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
+.btn:hover { transform: translateY(-2px); }
+.btn:disabled { background: rgba(255,255,255,0.2); color: #aaa; }
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.3);
 }
 .status-message {
-  margin-top: 16px;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  margin-top: 12px;
+  font-size: 0.8rem;
   display: none;
 }
-.status-message.show {
-  display: block;
-}
-.status-message.success {
-  background: rgba(16, 185, 129, 0.2);
-  color: #6ee7b7;
-  border: 1px solid rgba(16, 185, 129, 0.3);
-}
-.status-message.error {
-  background: rgba(239, 68, 68, 0.2);
-  color: #fca5a5;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-}
-.status-message.info {
-  background: rgba(59, 130, 246, 0.2);
-  color: #93c5fd;
-  border: 1px solid rgba(59, 130, 246, 0.3);
-}
-.loading {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #ffffff;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin-right: 8px;
-  vertical-align: middle;
-}
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-.contract-info {
-  margin-top: 24px;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  font-size: 0.85rem;
-  opacity: 0.7;
-}
-.share-section {
-  display: none;
-  margin-top: 16px;
-}
-.share-section.show {
-  display: block;
-}
-.toast {
-  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-  background: rgba(10, 10, 20, 0.85); backdrop-filter: blur(10px);
-  color: #fff; border-radius: 16px; padding: 12px 20px; font-weight: 600;
-  max-width: 340px; width: calc(100% - 40px); display: none; z-index: 999;
-  border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-.toast.show { display: block; animation: slideInUp .3s ease; }
-@keyframes slideInUp { from {opacity:0; transform:translate(-50%, 30px)} to {opacity:1; transform:translate(-50%, 0)} }
+.status-message.show { display: block; }
+.status-message.success { color: #6ee7b7; }
+.status-message.error { color: #fca5a5; }
 </style>
 </head>
+
 <body>
 <div class="container">
-  <h1>WrapItUp 🛡️</h1>
-  <p class="subtitle">Mint Your Protective Condom NFT</p>
-  <!-- Farcaster User Info -->
-  <div id="userInfo" class="user-info">
-    <div class="user-name" id="userName"></div>
-    <div class="user-fid" id="userFid"></div>
-  </div>
-  <!-- NFT Preview -->
-  <div class="nft-preview">
-    🛡️
-  </div>
-  <!-- Wallet Info -->
+  <h1>Condom Mint 🍌🛡️</h1>
+  <p class="subtitle">Mint Your Exclusive Safe Badge</p>
+
+  <div class="nft-preview">🍌</div>
+
   <div id="walletInfo" class="wallet-info">
     <div class="wallet-address" id="walletAddress"></div>
   </div>
-  <!-- Action Buttons -->
+
   <button id="connectBtn" class="btn">Connect Wallet</button>
   <button id="mintBtn" class="btn" disabled>Mint NFT</button>
-  <!-- Share Section -->
-  <div id="shareSection" class="share-section">
+
+  <div id="shareSection" style="display:none;">
     <button id="shareCastBtn" class="btn btn-secondary">Share on Farcaster 🚀</button>
   </div>
-  <!-- Status Messages -->
+
   <div id="statusMessage" class="status-message"></div>
-  <!-- Toast -->
-  <div id="toast" class="toast"></div>
-  <!-- Contract Info -->
-  <div class="contract-info">
-    <div>Network: Base</div>
-    <div style="word-break: break-all; margin-top: 4px;">Contract: <span id="contractAddr">0xEa6a0959F2c169c1Be1eFDc884B6920AE36D41A3</span></div>
-  </div>
 </div>
+
 <script type="module">
 import { sdk } from 'https://esm.sh/@farcaster/miniapp-sdk@0.1.8';
-import { createConfig, connect, writeContract, getAccount, http } from 'https://esm.sh/@wagmi/core';
-import { base } from 'https://esm.sh/@wagmi/core/chains';
+import { createConfig, connect, writeContract, getAccount, http } from 'https://esm.sh/@wagmi/core@2.13.5';
+import { base } from 'https://esm.sh/@wagmi/core@2.13.5/chains';
 import { farcasterMiniApp } from 'https://esm.sh/@farcaster/miniapp-wagmi-connector@0.1.7';
-// ========================================
-// CONFIG - PASTE YOUR CONTRACT ADDRESS HERE
-// ========================================
-const NFT_CONTRACT_ADDRESS = '0xEa6a0959F2c169c1Be1eFDc884B6920AE36D41A3'; // << REPLACE THIS
+
+const NFT_CONTRACT_ADDRESS = "0xEa6a0959F2c169c1Be1eFDc884B6920AE36D41A3";
 const NFT_CONTRACT_ABI = [
-  // Paste your contract ABI here
-  // Example for a simple mint function:
-  {
-    "inputs": [],
-    "name": "mint",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
+  { "inputs": [], "name": "mint", "outputs": [], "stateMutability": "nonpayable", "type": "function" }
 ];
-// ========================================
-// ELEMENTS
-// ========================================
-const connectBtn = document.getElementById('connectBtn');
-const mintBtn = document.getElementById('mintBtn');
-const walletInfo = document.getElementById('walletInfo');
-const walletAddress = document.getElementById('walletAddress');
-const statusMessage = document.getElementById('statusMessage');
-const userInfo = document.getElementById('userInfo');
-const userName = document.getElementById('userName');
-const userFid = document.getElementById('userFid');
-const shareCastBtn = document.getElementById('shareCastBtn');
-const shareSection = document.getElementById('shareSection');
-const contractAddr = document.getElementById('contractAddr');
-const toastEl = document.getElementById('toast');
-// Display contract address
-contractAddr.innerText = NFT_CONTRACT_ADDRESS.substring(0, 6) + '...' + NFT_CONTRACT_ADDRESS.slice(-4);
-// ========================================
-// STATE
-// ========================================
+
+const connectBtn = document.getElementById("connectBtn");
+const mintBtn = document.getElementById("mintBtn");
+const walletInfo = document.getElementById("walletInfo");
+const walletAddress = document.getElementById("walletAddress");
+const statusMessage = document.getElementById("statusMessage");
+const shareSection = document.getElementById("shareSection");
+const shareCastBtn = document.getElementById("shareCastBtn");
+
 let userWalletAddress = null;
-let context = null;
-// ========================================
-// FARCASTER SDK INITIALIZATION
-// ========================================
-try {
-  context = await sdk.context;
-  console.log('Farcaster Context:', context);
- 
-  // Display Farcaster user info
-  if (context?.user) {
-    userInfo.classList.add('show');
-    userName.innerText = context.user.displayName || context.user.username || 'Farcaster User';
-    userFid.innerText = `FID: ${context.user.fid}`;
-  }
-} catch (err) {
-  console.warn('Could not get Farcaster context:', err);
-}
-// Notify SDK that app is ready (hides splash screen)
-sdk.actions.ready({ disableNativeGestures: true });
-// ========================================
-// UTILITY FUNCTIONS
-// ========================================
-function showStatus(message, type = 'info') {
-  statusMessage.innerText = message;
+
+// Wagmi Config
+const wagmiConfig = createConfig({
+  chains: [base],
+  transports: { [base.id]: http() }
+});
+
+function showStatus(msg, type="info") {
+  statusMessage.textContent = msg;
   statusMessage.className = `status-message show ${type}`;
-  setTimeout(() => {
-    statusMessage.classList.remove('show');
-  }, 5000);
+  setTimeout(()=>statusMessage.classList.remove("show"), 4000);
 }
-function showToast(msg, ms=3500) {
-  toastEl.innerHTML = msg;
-  toastEl.classList.add('show');
-  setTimeout(()=>toastEl.classList.remove('show'), ms);
-}
-// ========================================
-// WALLET CONNECTION (Simplified to match working code exactly)
-// ========================================
-const config = createConfig({ chains:[base], transports:{ [base.id]:http() } });
+
+// Connect Wallet
 connectBtn.onclick = async () => {
   try {
-    await connect(config, { connector: farcasterMiniApp() });
-    userWalletAddress = getAccount(config)?.address;
-    if(userWalletAddress) {
-      showToast('✅ Wallet connected');
-      walletAddress.innerText = `${userWalletAddress.substring(0, 6)}...${userWalletAddress.slice(-4)}`;
-      walletInfo.classList.add('show');
-      connectBtn.disabled = true;
+    connectBtn.disabled = true;
+    connectBtn.innerText = "Connecting...";
+    const account = await connect(wagmiConfig, { connector: farcasterMiniApp() });
+    userWalletAddress = account.accounts[0];
+    if (userWalletAddress) {
+      walletAddress.innerText = userWalletAddress.slice(0,6)+"..."+userWalletAddress.slice(-4);
+      walletInfo.classList.add("show");
+      connectBtn.style.display = "none";
       mintBtn.disabled = false;
-      showStatus('✅ Wallet connected successfully!', 'success');
+      showStatus("✅ Wallet Connected", "success");
     }
-  } catch(e) { 
-    showToast('❌ Connect failed'); 
-    console.error(e); 
+  } catch (e) {
+    console.error(e);
+    connectBtn.disabled = false;
+    connectBtn.innerText = "Connect Wallet";
+    showStatus("❌ Wallet connect failed", "error");
   }
 };
-// ========================================
-// NFT MINTING
-// ========================================
+
+// Mint NFT
 mintBtn.onclick = async () => {
-  if (!userWalletAddress) {
-    showStatus('❌ Please connect your wallet first', 'error');
-    return;
-  }
+  if (!userWalletAddress) return showStatus("❌ Connect wallet first", "error");
   try {
     mintBtn.disabled = true;
-    mintBtn.innerHTML = '<span class="loading"></span>Minting...';
-    showStatus('⏳ Minting your NFT...', 'info');
-    const txHash = await writeContract(config, {
+    mintBtn.innerText = "Minting...";
+    const txHash = await writeContract(wagmiConfig, {
       address: NFT_CONTRACT_ADDRESS,
       abi: NFT_CONTRACT_ABI,
-      functionName: 'mint', // Change this to match your contract function
-      // args: [], // Add arguments if your mint function requires them
+      functionName: "mint"
     });
-    console.log('Transaction Hash:', txHash);
-   
-    mintBtn.innerHTML = '✓ Minted Successfully!';
-    showStatus(`🎉 NFT Minted! View on <a href="https://basescan.org/tx/${txHash}" target="_blank" style="color: #a5f3fc; text-decoration: underline;">BaseScan</a>`, 'success');
-    showToast(`⏳ Transaction sent! <a href="https://basescan.org/tx/${txHash}" target="_blank">View TX</a>`, 5000);
-    shareSection.classList.add('show');
-  } catch (error) {
-    console.error('Mint error:', error);
+    mintBtn.innerText = "Minted 🎉";
+    shareSection.style.display = "block";
+    showStatus(`🎉 Minted! View TX on BaseScan`, "success");
+  } catch (e) {
+    console.error(e);
     mintBtn.disabled = false;
-    mintBtn.innerText = 'Mint NFT';
-   
-    if (error.message.includes('User rejected')) {
-      showStatus('❌ Transaction rejected', 'error');
-    } else {
-      showStatus('❌ Minting failed. Please try again.', 'error');
-    }
+    mintBtn.innerText = "Mint NFT";
+    showStatus("❌ Mint failed", "error");
   }
 };
-// ========================================
-// SHARE ON FARCASTER
-// ========================================
+
+// Share
 shareCastBtn.onclick = async () => {
-  try {
-    await sdk.actions.composeCast({
-      text: `Just minted my WrapItUp Condom NFT! 🛡️✨\n\nStay safe and get yours now!`,
-      embeds: [window.location.href]
-    });
-  } catch (error) {
-    console.error('Share error:', error);
-    showStatus('❌ Failed to share', 'error');
-  }
+  await sdk.actions.composeCast({
+    text: "Just minted my Condom NFT 🍌🛡️ on Farcaster! #StaySafe",
+    embeds: [window.location.href]
+  });
 };
 </script>
 </body>
