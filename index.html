@@ -199,7 +199,8 @@ h1 {
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(255, 107, 157, 0.6);
 }
-  .btn:disabled {
+
+.btn:disabled {
   background: rgba(100, 100, 100, 0.5);
   color: rgba(255, 255, 255, 0.5);
   cursor: not-allowed;
@@ -335,7 +336,7 @@ import { createConfig, connect, writeContract, readContract, getAccount, http } 
 import { base } from 'https://esm.sh/@wagmi/core/chains';
 import { farcasterMiniApp } from 'https://esm.sh/@farcaster/miniapp-wagmi-connector';
   
-  // Contract Configuration
+// Contract Configuration
 const CONTRACT_ADDRESS = '0xEa6a0959F2c169c1Be1eFDc884B6920AE36D41A3';
 const CONTRACT_ABI = [
   {
@@ -551,7 +552,7 @@ const CONTRACT_ABI = [
         "internalType": "address",
         "name": "owner",
         "type": "address"
-        },
+      },
       {
         "internalType": "address",
         "name": "operator",
@@ -743,8 +744,13 @@ const walletAddressEl = document.getElementById('wallet-address');
 const nftImg = document.getElementById('nftImg');
 const toastEl = document.getElementById('toast');
 
-// NFT Images (you'll need to host these)
-const NFT_IMAGES = ['0.png', '1.png', '2.png', '3.png'];
+// NFT Images - Add your full URLs here
+const NFT_IMAGES = [
+  'https://wrap-it-up-lac.vercel.app/0.png',
+  'https://wrap-it-up-lac.vercel.app/1.png',
+  'https://wrap-it-up-lac.vercel.app/2.png',
+  'https://wrap-it-up-lac.vercel.app/3.png'
+];
 
 // Set random NFT image on load
 nftImg.src = NFT_IMAGES[Math.floor(Math.random() * NFT_IMAGES.length)];
@@ -752,12 +758,18 @@ nftImg.src = NFT_IMAGES[Math.floor(Math.random() * NFT_IMAGES.length)];
 // State
 let userAddress = null;
 
-// Setup Wagmi Config
+// Setup Wagmi Config - FIXED: Added connectors array
 const config = createConfig({
   chains: [base],
-  transports: { [base.id]: http() }
+  transports: { 
+    [base.id]: http() 
+  },
+  connectors: [
+    farcasterMiniApp()
+  ]
 });
-  // Toast Function
+
+// Toast Function
 function showToast(msg, duration = 4000) {
   toastEl.innerHTML = msg;
   toastEl.classList.add('show');
@@ -767,7 +779,8 @@ function showToast(msg, duration = 4000) {
 // Update UI after wallet connection
 function updateWalletUI(address) {
   userAddress = address;
-  const shortAddress = ${address.substring(0, 6)}...${address.slice(-4)};
+  // FIXED: Added backticks for template literal
+  const shortAddress = `${address.substring(0, 6)}...${address.slice(-4)}`;
   
   walletStatus.classList.add('connected');
   statusText.innerHTML = '✅ Wallet Connected';
@@ -835,7 +848,8 @@ mintBtn.onclick = async () => {
       functionName: 'claimNFTs'
     });
     
-    showToast(⏳ Transaction submitted! <a href="https://basescan.org/tx/${txHash}" target="_blank">View on BaseScan</a>, 6000);
+    // FIXED: Added backticks for template literal
+    showToast(`⏳ Transaction submitted! <a href="https://basescan.org/tx/${txHash}" target="_blank">View on BaseScan</a>`, 6000);
     
     // Wait a bit and update UI
     setTimeout(() => {
