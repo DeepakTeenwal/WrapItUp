@@ -1,230 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Condom Mint | NFT</title>
-
-<!-- Farcaster Mini App Meta Tag -->
-<meta name="fc:miniapp" content='{
-  "version":"1",
-  "imageUrl":"https://your-domain.vercel.app/preview.png",
-  "button":{
-    "title":"Mint NFT",
-    "action":{
-      "type":"launch_frame",
-      "name":"Condom Mint",
-      "url":"https://your-domain.vercel.app/",
-      "splashImageUrl":"https://your-domain.vercel.app/icon.png",
-      "splashBackgroundColor":"#ec4899"
+  <meta charset="UTF-8">
+  <title>Condom NFT Mint</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      margin: 0;
+      background: #f0f0f0;
     }
-  }
-}'>
-
-<style>
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100dvh;
-  overflow: hidden;
-}
-body {
-  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
-  color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  box-sizing: border-box;
-}
-.container {
-  max-width: 320px;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-  text-align: center;
-}
-h1 {
-  font-size: 1.8rem;
-  margin-bottom: 6px;
-  font-weight: 800;
-  background: linear-gradient(135deg, #fff 0%, #f9a8d4 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.subtitle {
-  font-size: 0.9rem;
-  opacity: 0.9;
-  margin-bottom: 20px;
-  color: #fbcfe8;
-}
-.nft-preview {
-  width: 140px;
-  height: 140px;
-  margin: 0 auto 16px;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 64px;
-  border: 2px solid rgba(255,255,255,0.3);
-}
-.wallet-info {
-  display: none;
-  background: rgba(0,0,0,0.25);
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom: 16px;
-}
-.wallet-info.show { display: block; }
-.wallet-address {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #c4b5fd;
-  word-break: break-all;
-}
-.btn {
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(135deg,#fff 0%,#f9a8d4 100%);
-  color: #db2777;
-  border: none;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  cursor: pointer;
-  margin: 8px 0;
-  transition: all 0.3s;
-}
-.btn:hover { transform: translateY(-2px); }
-.btn:disabled { background: rgba(255,255,255,0.2); color: #aaa; }
-.btn-secondary {
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-  border: 2px solid rgba(255,255,255,0.3);
-}
-.status-message {
-  margin-top: 12px;
-  font-size: 0.8rem;
-  display: none;
-}
-.status-message.show { display: block; }
-.status-message.success { color: #6ee7b7; }
-.status-message.error { color: #fca5a5; }
-</style>
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 350px;
+    }
+    img {
+      max-width: 200px;
+      margin: 10px auto;
+      border-radius: 12px;
+    }
+    button {
+      margin: 8px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #6a0dad;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    #walletAddress {
+      font-size: 14px;
+      margin-top: 10px;
+      color: #333;
+      word-break: break-all;
+    }
+  </style>
 </head>
-
 <body>
-<div class="container">
-  <h1>Condom Mint 🍌🛡️</h1>
-  <p class="subtitle">Mint Your Exclusive Safe Badge</p>
-
-  <div class="nft-preview">🍌</div>
-
-  <div id="walletInfo" class="wallet-info">
-    <div class="wallet-address" id="walletAddress"></div>
+  <div class="card">
+    <h2>🍌 Condom NFT Mint</h2>
+    <img id="nftImg" src="" alt="NFT Preview">
+    <button id="connectBtn">Connect Wallet</button>
+    <button id="mintBtn" disabled>Mint NFT</button>
+    <div id="walletAddress"></div>
   </div>
 
-  <button id="connectBtn" class="btn">Connect Wallet</button>
-  <button id="mintBtn" class="btn" disabled>Mint NFT</button>
+  <script type="module">
+    import { createConfig, connect, getAccount, http, writeContract } from 'https://esm.sh/@wagmi/core';
+    import { base } from 'https://esm.sh/@wagmi/core/chains';
+    import { farcasterMiniApp } from 'https://esm.sh/@farcaster/miniapp-wagmi-connector';
+    import CONTRACT_ABI from './contract-abi.js'; // keep your existing ABI file
+    const CONTRACT_ADDRESS = "YOUR_CONTRACT_ADDRESS"; // keep your contract address
 
-  <div id="shareSection" style="display:none;">
-    <button id="shareCastBtn" class="btn btn-secondary">Share on Farcaster 🚀</button>
-  </div>
-
-  <div id="statusMessage" class="status-message"></div>
-</div>
-
-<script type="module">
-import { sdk } from 'https://esm.sh/@farcaster/miniapp-sdk@0.1.8';
-import { createConfig, connect, writeContract, getAccount, http } from 'https://esm.sh/@wagmi/core@2.13.5';
-import { base } from 'https://esm.sh/@wagmi/core@2.13.5/chains';
-import { farcasterMiniApp } from 'https://esm.sh/@farcaster/miniapp-wagmi-connector@0.1.7';
-
-const NFT_CONTRACT_ADDRESS = "0xEa6a0959F2c169c1Be1eFDc884B6920AE36D41A3";
-const NFT_CONTRACT_ABI = [
-  { "inputs": [], "name": "mint", "outputs": [], "stateMutability": "nonpayable", "type": "function" }
-];
-
-const connectBtn = document.getElementById("connectBtn");
-const mintBtn = document.getElementById("mintBtn");
-const walletInfo = document.getElementById("walletInfo");
-const walletAddress = document.getElementById("walletAddress");
-const statusMessage = document.getElementById("statusMessage");
-const shareSection = document.getElementById("shareSection");
-const shareCastBtn = document.getElementById("shareCastBtn");
-
-let userWalletAddress = null;
-
-// Wagmi Config
-const wagmiConfig = createConfig({
-  chains: [base],
-  transports: { [base.id]: http() }
-});
-
-function showStatus(msg, type="info") {
-  statusMessage.textContent = msg;
-  statusMessage.className = `status-message show ${type}`;
-  setTimeout(()=>statusMessage.classList.remove("show"), 4000);
-}
-
-// Connect Wallet
-connectBtn.onclick = async () => {
-  try {
-    connectBtn.disabled = true;
-    connectBtn.innerText = "Connecting...";
-    const account = await connect(wagmiConfig, { connector: farcasterMiniApp() });
-    userWalletAddress = account.accounts[0];
-    if (userWalletAddress) {
-      walletAddress.innerText = userWalletAddress.slice(0,6)+"..."+userWalletAddress.slice(-4);
-      walletInfo.classList.add("show");
-      connectBtn.style.display = "none";
-      mintBtn.disabled = false;
-      showStatus("✅ Wallet Connected", "success");
-    }
-  } catch (e) {
-    console.error(e);
-    connectBtn.disabled = false;
-    connectBtn.innerText = "Connect Wallet";
-    showStatus("❌ Wallet connect failed", "error");
-  }
-};
-
-// Mint NFT
-mintBtn.onclick = async () => {
-  if (!userWalletAddress) return showStatus("❌ Connect wallet first", "error");
-  try {
-    mintBtn.disabled = true;
-    mintBtn.innerText = "Minting...";
-    const txHash = await writeContract(wagmiConfig, {
-      address: NFT_CONTRACT_ADDRESS,
-      abi: NFT_CONTRACT_ABI,
-      functionName: "mint"
+    // 🔹 Setup config
+    const config = createConfig({
+      chains: [base],
+      transports: { [base.id]: http() },
     });
-    mintBtn.innerText = "Minted 🎉";
-    shareSection.style.display = "block";
-    showStatus(`🎉 Minted! View TX on BaseScan`, "success");
-  } catch (e) {
-    console.error(e);
-    mintBtn.disabled = false;
-    mintBtn.innerText = "Mint NFT";
-    showStatus("❌ Mint failed", "error");
-  }
-};
 
-// Share
-shareCastBtn.onclick = async () => {
-  await sdk.actions.composeCast({
-    text: "Just minted my Condom NFT 🍌🛡️ on Farcaster! #StaySafe",
-    embeds: [window.location.href]
-  });
-};
-</script>
+    // 🔹 UI Elements
+    const connectBtn = document.getElementById("connectBtn");
+    const mintBtn = document.getElementById("mintBtn");
+    const walletAddress = document.getElementById("walletAddress");
+    const nftImg = document.getElementById("nftImg");
+
+    // 🔹 Random NFT image (4 total)
+    const images = ["0.png", "1.png", "2.png", "3.png"];
+    nftImg.src = images[Math.floor(Math.random() * images.length)];
+
+    let userAddress = null;
+
+    // 🔹 Wallet Connect
+    connectBtn.onclick = async () => {
+      try {
+        await connect(config, { connector: farcasterMiniApp() });
+        const acc = getAccount(config)?.address;
+        if (acc) {
+          userAddress = acc;
+          walletAddress.textContent = "Connected: " + acc;
+          mintBtn.disabled = false;
+        }
+      } catch (err) {
+        console.error("Wallet connect failed", err);
+      }
+    };
+
+    // 🔹 Mint (keep your existing logic, just call contract here)
+    mintBtn.onclick = async () => {
+      try {
+        const tx = await writeContract(config, {
+          address: CONTRACT_ADDRESS,
+          abi: CONTRACT_ABI,
+          functionName: "mint",
+          args: [userAddress],
+        });
+        alert("Minting... TX: " + tx.hash);
+      } catch (err) {
+        console.error("Mint failed", err);
+      }
+    };
+  </script>
 </body>
 </html>
