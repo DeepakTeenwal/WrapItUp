@@ -1,12 +1,20 @@
-},
-  "miniapp": {
-    "version": "1",
+{
+  "frame": {
     "name": "WrapItUp",
+    "version": "1",
     "iconUrl": "https://wrap-it-up-lac.vercel.app/icon.png",
-    "homeUrl": "https://wrap-it-up-lac.vercel.app/",
+    "homeUrl": "https://wrap-it-up-lac.vercel.app",
     "imageUrl": "https://wrap-it-up-lac.vercel.app/image.png",
-    "buttonTitle": "Start",
     "splashImageUrl": "https://wrap-it-up-lac.vercel.app/splash.png",
-    "splashBackgroundColor": "#6a0dad"
+    "splashBackgroundColor": "#1B1B1E",
+    "webhookUrl": "https://wrap-it-up-lac.vercel.app/api/webhook",
+    "subtitle": "SafeSays",
+    "description": "Funny, cheeky & safe — the best quotes about love, laughter & protection. Wrap it up with words that matter",
+    "primaryCategory": "Mint"
+  },
+  "accountAssociation": {
+    "header": 
+    "payload": 
+    "signature":
   }
 }
