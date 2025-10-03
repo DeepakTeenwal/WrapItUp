@@ -8,13 +8,13 @@
     "splashImageUrl": "https://wrap-it-up-lac.vercel.app/splash.png",
     "splashBackgroundColor": "#1B1B1E",
     "webhookUrl": "https://wrap-it-up-lac.vercel.app/api/webhook",
+    "primaryCategory": "social",
     "subtitle": "SafeSays",
-    "description": "Funny, cheeky & safe — the best quotes about love, laughter & protection. Wrap it up with words that matter",
-    "primaryCategory": "Social"
+    "description": "Funny, cheeky & safe — the best quotes about love, laughter & protection. Wrap it up with words that matter"
   },
   "accountAssociation": {
-    "header": 
-    "payload": 
-    "signature":
+    "header": "eyJmaWQiOjE4MzAxLCJ0eXBlIjoiYXV0aCIsImtleSI6IjB4M0ZhODlFNzhBY2YyQzFkMmVmMDlhNDhlYTkyQzZlMWFENDk2QUM5RSJ9",
+    "payload": "eyJkb21haW4iOiJ3cmFwLWl0LXVwLWxhYy52ZXJjZWwuYXBwIn0",
+    "signature": "bsPojtoWI+xZ5iu9N2FiB1cbDHJyDY7kEZUc5mEvu2JL8a1tSOil11Q+UP/nnQmBCmtTUj4fIICX5tScbcebRRs="
   }
 }
