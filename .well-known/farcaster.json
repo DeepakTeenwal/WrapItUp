@@ -2,7 +2,7 @@
   "miniapp": {
     "version": "1",
     "name": "WrapItUp",
-    "iconUrl": "https://wrap-it-up-lac.vercel.app/splash.png",
+    "iconUrl": "https://wrap-it-up-lac.vercel.app/icon.png",
     "homeUrl": "https://wrap-it-up-lac.vercel.app/",
     "imageUrl": "https://wrap-it-up-lac.vercel.app/image.png",
     "buttonTitle": "Start",
