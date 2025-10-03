@@ -1,117 +1,868 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Condom NFT Mint</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      height: 100vh;
-      margin: 0;
-      background: #f0f0f0;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Condom NFT | Mint</title>
+
+<meta name="fc:miniapp" content='{
+  "version":"1",
+  "imageUrl":"https://your-domain.vercel.app/image.png",
+  "button":{
+    "title":"Condom NFT",
+    "action":{
+      "type":"launch_frame",
+      "name":"Condom NFT Mint",
+      "url":"https://your-domain.vercel.app/",
+      "splashImageUrl":"https://your-domain.vercel.app/splash.png",
+      "splashBackgroundColor":"#6a0dad"
     }
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      text-align: center;
-      max-width: 350px;
-    }
-    img {
-      max-width: 200px;
-      margin: 10px auto;
-      border-radius: 12px;
-    }
-    button {
-      margin: 8px;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      background: #6a0dad;
-      color: white;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-    }
-    #walletAddress {
-      font-size: 14px;
-      margin-top: 10px;
-      color: #333;
-      word-break: break-all;
-    }
-  </style>
+  }
+}'>
+
+<style>
+/* Base Styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+body {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Floating Background Shapes */
+.floating-shape {
+  position: absolute;
+  filter: blur(80px);
+  opacity: 0.5;
+  animation: float 20s infinite linear alternate;
+  border-radius: 50%;
+  z-index: -1;
+}
+.shape-1 {
+  width: 300px;
+  height: 300px;
+  background-color: rgba(255, 105, 180, 0.4);
+  top: 10%;
+  left: -10%;
+  animation-duration: 25s;
+}
+.shape-2 {
+  width: 250px;
+  height: 250px;
+  background-color: rgba(138, 43, 226, 0.4);
+  bottom: 15%;
+  right: -5%;
+  animation-delay: -10s;
+  animation-duration: 30s;
+}
+@keyframes float {
+  0% { transform: translate(0, 0) scale(1.0); }
+  50% { transform: translate(50px, 60px) scale(1.1); }
+  100% { transform: translate(-30px, -40px) scale(0.9); }
+}
+
+/* Main Container */
+#main-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+}
+
+/* Title */
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  text-align: center;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  color: #fff;
+}
+
+.subtitle {
+  font-size: 1rem;
+  margin-bottom: 30px;
+  text-align: center;
+  opacity: 0.9;
+  color: #f0f0f0;
+}
+
+/* Card */
+#mint-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 30px 24px;
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* NFT Image Container */
+#nft-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+#nftImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+#nft-container:hover #nftImg {
+  transform: scale(1.05);
+}
+
+/* Wallet Status */
+#wallet-status {
+  text-align: center;
+  margin-bottom: 20px;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.status-icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.connected .status-icon {
+  animation: none;
+}
+
+#wallet-address {
+  font-size: 0.9rem;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 8px 16px;
+  border-radius: 20px;
+  margin-top: 8px;
+  word-break: break-all;
+  max-width: 100%;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+/* Buttons */
+.btn {
+  padding: 16px;
+  background: linear-gradient(90deg, #ff6b9d, #c44569);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  width: 100%;
+  margin: 10px 0;
+  display: block;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+  text-transform: uppercase;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(255, 107, 157, 0.6);
+}
+  .btn:disabled {
+  background: rgba(100, 100, 100, 0.5);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.6);
+}
+
+/* Info Section */
+.info-section {
+  margin-top: 20px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.info-section p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.info-section .label {
+  font-weight: 600;
+  color: #ff6b9d;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(20, 20, 30, 0.95);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  border-radius: 16px;
+  padding: 14px 24px;
+  font-weight: 600;
+  max-width: 340px;
+  width: calc(100% - 40px);
+  display: none;
+  z-index: 999;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+
+.toast.show {
+  display: block;
+  animation: slideInUp 0.3s ease;
+}
+
+.toast a {
+  color: #ff6b9d;
+  text-decoration: underline;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 30px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Loading Spinner */
+.spinner {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid #fff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
 </head>
 <body>
-  <div class="card">
-    <h2> Condom NFT Mint</h2>
-    <img id="nftImg" src="" alt="NFT Preview">
-    <button id="connectBtn">Connect Wallet</button>
-    <button id="mintBtn" disabled>Mint NFT</button>
-    <div id="walletAddress"></div>
+
+<div class="floating-shape shape-1"></div>
+<div class="floating-shape shape-2"></div>
+
+<div id="main-container">
+  <h1>🎈 Condom NFT</h1>
+  <p class="subtitle">Claim your unique NFT on Base</p>
+  
+  <div id="mint-card">
+    <div id="nft-container">
+      <img id="nftImg" src="" alt="Condom NFT">
+    </div>
+    
+    <div id="wallet-status">
+      <div class="status-icon">🔒</div>
+      <div id="status-text">Connect wallet to start</div>
+      <div id="wallet-address"></div>
+    </div>
+    
+    <button id="connectBtn" class="btn btn-primary">Connect Wallet</button>
+    <button id="mintBtn" class="btn" disabled>Mint NFT</button>
+    
+    <div class="info-section">
+      <p><span class="label">Network:</span> Base</p>
+      <p><span class="label">Supply:</span> Unlimited</p>
+      <p><span class="label">Price:</span> Free</p>
+    </div>
   </div>
+</div>
 
-  <script type="module">
-    import { createConfig, connect, getAccount, http, writeContract } from 'https://esm.sh/@wagmi/core';
-    import { base } from 'https://esm.sh/@wagmi/core/chains';
-    import { farcasterMiniApp } from 'https://esm.sh/@farcaster/miniapp-wagmi-connector';
-    import CONTRACT_ABI from './contract-abi.js'; // keep your existing ABI file
-    const CONTRACT_ADDRESS = "0xEa6a0959F2c169c1Be1eFDc884B6920AE36D41A3"; // keep your contract address
+<div id="toast" class="toast"></div>
 
-    // 🔹 Setup config
-    const config = createConfig({
-      chains: [base],
-      transports: { [base.id]: http() },
-    });
-
-    // 🔹 UI Elements
-    const connectBtn = document.getElementById("connectBtn");
-    const mintBtn = document.getElementById("mintBtn");
-    const walletAddress = document.getElementById("walletAddress");
-    const nftImg = document.getElementById("nftImg");
-
-    // 🔹 Random NFT image (4 total)
-    const images = ["0.png", "1.png", "2.png", "3.png"];
-    nftImg.src = images[Math.floor(Math.random() * images.length)];
-
-    let userAddress = null;
-
-    // 🔹 Wallet Connect
-    connectBtn.onclick = async () => {
-      try {
-        await connect(config, { connector: farcasterMiniApp() });
-        const acc = getAccount(config)?.address;
-        if (acc) {
-          userAddress = acc;
-          walletAddress.textContent = "Connected: " + acc;
-          mintBtn.disabled = false;
-        }
-      } catch (err) {
-        console.error("Wallet connect failed", err);
+<script type="module">
+import { sdk } from 'https://esm.sh/@farcaster/miniapp-sdk';
+import { createConfig, connect, writeContract, readContract, getAccount, http } from 'https://esm.sh/@wagmi/core';
+import { base } from 'https://esm.sh/@wagmi/core/chains';
+import { farcasterMiniApp } from 'https://esm.sh/@farcaster/miniapp-wagmi-connector';
+  
+  // Contract Configuration
+const CONTRACT_ADDRESS = '0xEa6a0959F2c169c1Be1eFDc884B6920AE36D41A3';
+const CONTRACT_ABI = [
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "approved",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
       }
-    };
+    ],
+    "name": "Approval",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "approved",
+        "type": "bool"
+      }
+    ],
+    "name": "ApprovalForAll",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256[4]",
+        "name": "tokenIds",
+        "type": "uint256[4]"
+      }
+    ],
+    "name": "NFTsClaimed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "Transfer",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "newURI",
+        "type": "string"
+      }
+    ],
+    "name": "addTokenURI",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "approve",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      }
+    ],
+    "name": "balanceOf",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "claimNFTs",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllTokenURIs",
+    "outputs": [
+      {
+        "internalType": "string[]",
+        "name": "",
+        "type": "string[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getApproved",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "hasClaimed",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+        },
+      {
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      }
+    ],
+    "name": "isApprovedForAll",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "name",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "nextTokenId",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "ownerOf",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "safeTransferFrom",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "approved",
+        "type": "bool"
+      }
+    ],
+    "name": "setApprovalForAll",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "symbol",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "tokenURI",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "tokenURIs",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "transferFrom",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+];
 
-    // 🔹 Mint (keep your existing logic, just call contract here)
-    mintBtn.onclick = async () => {
+// Initialize SDK
+sdk.actions.ready({ disableNativeGestures: true });
+
+// UI Elements
+const connectBtn = document.getElementById('connectBtn');
+const mintBtn = document.getElementById('mintBtn');
+const walletStatus = document.getElementById('wallet-status');
+const statusText = document.getElementById('status-text');
+const walletAddressEl = document.getElementById('wallet-address');
+const nftImg = document.getElementById('nftImg');
+const toastEl = document.getElementById('toast');
+
+// NFT Images (you'll need to host these)
+const NFT_IMAGES = ['0.png', '1.png', '2.png', '3.png'];
+
+// Set random NFT image on load
+nftImg.src = NFT_IMAGES[Math.floor(Math.random() * NFT_IMAGES.length)];
+
+// State
+let userAddress = null;
+
+// Setup Wagmi Config
+const config = createConfig({
+  chains: [base],
+  transports: { [base.id]: http() }
+});
+  // Toast Function
+function showToast(msg, duration = 4000) {
+  toastEl.innerHTML = msg;
+  toastEl.classList.add('show');
+  setTimeout(() => toastEl.classList.remove('show'), duration);
+}
+
+// Update UI after wallet connection
+function updateWalletUI(address) {
+  userAddress = address;
+  const shortAddress = ${address.substring(0, 6)}...${address.slice(-4)};
+  
+  walletStatus.classList.add('connected');
+  statusText.innerHTML = '✅ Wallet Connected';
+  walletAddressEl.textContent = shortAddress;
+  walletAddressEl.style.display = 'block';
+  
+  connectBtn.disabled = true;
+  connectBtn.textContent = 'Connected';
+  mintBtn.disabled = false;
+}
+
+// Connect Wallet
+connectBtn.onclick = async () => {
+  try {
+    connectBtn.disabled = true;
+    connectBtn.innerHTML = 'Connecting... <span class="spinner"></span>';
+    
+    await connect(config, { connector: farcasterMiniApp() });
+    const account = getAccount(config);
+    
+    if (account?.address) {
+      updateWalletUI(account.address);
+      showToast('✅ Wallet connected successfully!');
+      
+      // Check if user has already claimed
       try {
-        const tx = await writeContract(config, {
+        const hasClaimed = await readContract(config, {
           address: CONTRACT_ADDRESS,
           abi: CONTRACT_ABI,
-          functionName: "mint",
-          args: [userAddress],
+          functionName: 'hasClaimed',
+          args: [account.address]
         });
-        alert("Minting... TX: " + tx.hash);
+        
+        if (hasClaimed) {
+          mintBtn.disabled = true;
+          mintBtn.textContent = 'Already Claimed';
+          showToast('ℹ️ You have already claimed your NFTs');
+        }
       } catch (err) {
-        console.error("Mint failed", err);
+        console.error('Error checking claim status:', err);
       }
-    };
-  </script>
+    }
+  } catch (err) {
+    console.error('Connection error:', err);
+    showToast('❌ Failed to connect wallet');
+    connectBtn.disabled = false;
+    connectBtn.textContent = 'Connect Wallet';
+  }
+};
+
+// Mint NFT
+mintBtn.onclick = async () => {
+  if (!userAddress) {
+    showToast('❌ Please connect your wallet first');
+    return;
+  }
+  
+  try {
+    mintBtn.disabled = true;
+    mintBtn.innerHTML = 'Minting... <span class="spinner"></span>';
+    
+    const txHash = await writeContract(config, {
+      address: CONTRACT_ADDRESS,
+      abi: CONTRACT_ABI,
+      functionName: 'claimNFTs'
+    });
+    
+    showToast(⏳ Transaction submitted! <a href="https://basescan.org/tx/${txHash}" target="_blank">View on BaseScan</a>, 6000);
+    
+    // Wait a bit and update UI
+    setTimeout(() => {
+      mintBtn.textContent = '✅ Minted Successfully!';
+      showToast('🎉 Your NFTs have been minted!');
+    }, 2000);
+    
+  } catch (err) {
+    console.error('Mint error:', err);
+    
+    let errorMsg = '❌ Minting failed';
+    if (err.message?.includes('already claimed')) {
+      errorMsg = '❌ You have already claimed your NFTs';
+      mintBtn.textContent = 'Already Claimed';
+    } else if (err.message?.includes('user rejected')) {
+      errorMsg = '❌ Transaction was rejected';
+      mintBtn.disabled = false;
+      mintBtn.textContent = 'Mint NFT';
+    } else {
+      mintBtn.disabled = false;
+      mintBtn.textContent = 'Try Again';
+    }
+    
+    showToast(errorMsg);
+  }
+};
+</script>
+
 </body>
 </html>
