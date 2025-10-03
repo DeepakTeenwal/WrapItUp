@@ -198,6 +198,15 @@ h1 {
 .share-section.show {
   display: block;
 }
+.toast {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: rgba(10, 10, 20, 0.85); backdrop-filter: blur(10px);
+  color: #fff; border-radius: 16px; padding: 12px 20px; font-weight: 600;
+  max-width: 340px; width: calc(100% - 40px); display: none; z-index: 999;
+  border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+.toast.show { display: block; animation: slideInUp .3s ease; }
+@keyframes slideInUp { from {opacity:0; transform:translate(-50%, 30px)} to {opacity:1; transform:translate(-50%, 0)} }
 </style>
 </head>
 <body>
@@ -226,6 +235,8 @@ h1 {
   </div>
   <!-- Status Messages -->
   <div id="statusMessage" class="status-message"></div>
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
   <!-- Contract Info -->
   <div class="contract-info">
     <div>Network: Base</div>
@@ -234,8 +245,8 @@ h1 {
 </div>
 <script type="module">
 import { sdk } from 'https://esm.sh/@farcaster/miniapp-sdk@0.1.8';
-import { createConfig, connect, writeContract, getAccount, http } from 'https://esm.sh/@wagmi/core@2.13.5';
-import { base } from 'https://esm.sh/@wagmi/core@2.13.5/chains';
+import { createConfig, connect, writeContract, getAccount, http } from 'https://esm.sh/@wagmi/core';
+import { base } from 'https://esm.sh/@wagmi/core/chains';
 import { farcasterMiniApp } from 'https://esm.sh/@farcaster/miniapp-wagmi-connector@0.1.7';
 // ========================================
 // CONFIG - PASTE YOUR CONTRACT ADDRESS HERE
@@ -266,6 +277,7 @@ const userFid = document.getElementById('userFid');
 const shareCastBtn = document.getElementById('shareCastBtn');
 const shareSection = document.getElementById('shareSection');
 const contractAddr = document.getElementById('contractAddr');
+const toastEl = document.getElementById('toast');
 // Display contract address
 contractAddr.innerText = NFT_CONTRACT_ADDRESS.substring(0, 6) + '...' + NFT_CONTRACT_ADDRESS.slice(-4);
 // ========================================
@@ -301,33 +313,30 @@ function showStatus(message, type = 'info') {
     statusMessage.classList.remove('show');
   }, 5000);
 }
+function showToast(msg, ms=3500) {
+  toastEl.innerHTML = msg;
+  toastEl.classList.add('show');
+  setTimeout(()=>toastEl.classList.remove('show'), ms);
+}
 // ========================================
-// WALLET CONNECTION (Updated to match the provided code structure)
+// WALLET CONNECTION (Simplified to match working code exactly)
 // ========================================
-const config = createConfig({
-  chains: [base],
-  transports: { [base.id]: http() }
-});
+const config = createConfig({ chains:[base], transports:{ [base.id]:http() } });
 connectBtn.onclick = async () => {
   try {
-    connectBtn.disabled = true;
-    connectBtn.innerHTML = '<span class="loading"></span>Connecting...';
-   
     await connect(config, { connector: farcasterMiniApp() });
     userWalletAddress = getAccount(config)?.address;
-   
-    if (userWalletAddress) {
+    if(userWalletAddress) {
+      showToast('✅ Wallet connected');
       walletAddress.innerText = `${userWalletAddress.substring(0, 6)}...${userWalletAddress.slice(-4)}`;
       walletInfo.classList.add('show');
-      connectBtn.style.display = 'none';
+      connectBtn.disabled = true;
       mintBtn.disabled = false;
       showStatus('✅ Wallet connected successfully!', 'success');
     }
-  } catch (error) {
-    console.error('Connection error:', error);
-    showStatus('❌ Failed to connect wallet', 'error');
-    connectBtn.disabled = false;
-    connectBtn.innerText = 'Connect Wallet';
+  } catch(e) { 
+    showToast('❌ Connect failed'); 
+    console.error(e); 
   }
 };
 // ========================================
@@ -352,6 +361,7 @@ mintBtn.onclick = async () => {
    
     mintBtn.innerHTML = '✓ Minted Successfully!';
     showStatus(`🎉 NFT Minted! View on <a href="https://basescan.org/tx/${txHash}" target="_blank" style="color: #a5f3fc; text-decoration: underline;">BaseScan</a>`, 'success');
+    showToast(`⏳ Transaction sent! <a href="https://basescan.org/tx/${txHash}" target="_blank">View TX</a>`, 5000);
     shareSection.classList.add('show');
   } catch (error) {
     console.error('Mint error:', error);
