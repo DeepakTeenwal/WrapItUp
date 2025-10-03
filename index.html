@@ -302,9 +302,9 @@ function showStatus(message, type = 'info') {
   }, 5000);
 }
 // ========================================
-// WALLET CONNECTION
+// WALLET CONNECTION (Updated to match the provided code structure)
 // ========================================
-const wagmiConfig = createConfig({
+const config = createConfig({
   chains: [base],
   transports: { [base.id]: http() }
 });
@@ -313,8 +313,8 @@ connectBtn.onclick = async () => {
     connectBtn.disabled = true;
     connectBtn.innerHTML = '<span class="loading"></span>Connecting...';
    
-    await connect(wagmiConfig, { connector: farcasterMiniApp() });
-    userWalletAddress = getAccount(wagmiConfig)?.address;
+    await connect(config, { connector: farcasterMiniApp() });
+    userWalletAddress = getAccount(config)?.address;
    
     if (userWalletAddress) {
       walletAddress.innerText = `${userWalletAddress.substring(0, 6)}...${userWalletAddress.slice(-4)}`;
@@ -342,7 +342,7 @@ mintBtn.onclick = async () => {
     mintBtn.disabled = true;
     mintBtn.innerHTML = '<span class="loading"></span>Minting...';
     showStatus('⏳ Minting your NFT...', 'info');
-    const txHash = await writeContract(wagmiConfig, {
+    const txHash = await writeContract(config, {
       address: NFT_CONTRACT_ADDRESS,
       abi: NFT_CONTRACT_ABI,
       functionName: 'mint', // Change this to match your contract function
